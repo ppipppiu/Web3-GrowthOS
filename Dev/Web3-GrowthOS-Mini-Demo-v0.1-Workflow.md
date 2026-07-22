@@ -508,3 +508,62 @@ GitHub代码
 演示视频
 ```
 作为 Mini Demo 的保底提交方式
+
+## 16.后续版本路线
+v0.1：Mini Demo
+```text
+模拟交易数据
+→ CSV上传
+→ 数据校验
+→ 核心指标
+→ 钱包分层
+→ 规则建议
+```
+
+v0.2：增强分析
+```text
+链上交易数据
++
+链下运营数据
+→ 渠道和活动分析
+```
+
+v0.3：真实链上数据
+```text
+Monad Testnet Event Logs
+→ 数据转换
+→ 自动分析
+```
+
+v0.4：AI 分析
+```text
+确定性分析结果
+→ Gemini API
+→ 个性化运营策略
+```
+
+v1.0：完整产品闭环
+```text
+合约地址或CSV输入
+→ 链上与链下数据整合
+→ 增长分析
+→ 用户分层
+→ AI建议
+→ 分析报告
+→ 报告Hash写入Monad
+→ 报告一致性验证
+```
+
+## 17. Mini Demo 最终定义
+Web3 GrowthOS Mini Demo v0.1 可以总结为：
+```text
+Synthetic DEX Transaction Data
+→ CSV Upload
+→ Data Validation
+→ Growth Metrics
+→ Wallet Segmentation
+→ Rule-based Growth Recommendations
+```
+
+本版本重点证明：
+> Web3 交易数据可以被快速转化为可理解的增长指标、钱包分层和可执行的运营建议。
