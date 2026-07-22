@@ -113,14 +113,15 @@ sample_onchain_transactions.csv
 交易时间范围：过去 90 天
 
 ### 6.3 CSV 字段
-字段名	|是否必填|	含义
-wallet_address|	是|	发起交易的钱包地址
-transaction_hash| 是|	链上交易哈希
-block_time|	是|	交易发生时间
-action_type|	是|	交易行为类型，例如 swap
-amount_usd|	是|	本次交易对应的美元金额
-token_symbol|	否|	交易涉及的 Token
-gas_fee_usd|	否|	本次交易的 Gas 成本
+|字段名	|是否必填|	含义|
+|------|------|----------|
+|wallet_address|	是|	发起交易的钱包地址|
+|transaction_hash| 是|	链上交易哈希|
+|block_time|	是|	交易发生时间|
+|action_type|	是|	交易行为类型，例如 swap|
+|amount_usd|	是|	本次交易对应的美元金额|
+|token_symbol|	否|	交易涉及的 Token|
+|gas_fee_usd|	否|	本次交易的 Gas 成本|
 
 ### 6.4 CSV 示例
 ```
