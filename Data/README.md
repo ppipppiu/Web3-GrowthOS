@@ -24,3 +24,24 @@ It does not contain real users, real wallet activity, or personal information.
 - `token_symbol`
 - `gas_fee_usd`
 - `transaction_status`
+
+## invalid_sample.csv
+
+This file intentionally contains invalid records for backend validation tests.
+
+The injected issues include:
+
+- Missing wallet addresses
+- Missing transaction hashes
+- Duplicate transaction hashes
+- Invalid timestamps
+- Missing or invalid transaction amounts
+- Negative and zero transaction amounts
+- Failed transactions
+- Invalid wallet and transaction hash formats
+- Invalid action types
+- Invalid transaction statuses
+- Blank rows
+- Fully duplicated rows
+
+This file must not be used as the primary analytics dataset.
