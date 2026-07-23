@@ -1,0 +1,279 @@
+:root {
+    --bg: #f5f7fb;
+    --panel: #ffffff;
+    --text: #172033;
+    --muted: #667085;
+    --border: #e4e7ec;
+    --primary: #6c5ce7;
+    --primary-dark: #5548c8;
+    --success: #12b76a;
+    --warning: #f79009;
+    --danger: #f04438;
+    --shadow: 0 12px 30px rgba(16, 24, 40, 0.08);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+button,
+input {
+    font: inherit;
+}
+
+.container {
+    width: min(1180px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 48px 0 72px;
+}
+
+.hero {
+    margin-bottom: 28px;
+}
+
+.eyebrow,
+.section-label {
+    margin: 0 0 8px;
+    color: var(--primary);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+h1 {
+    margin: 0;
+    font-size: clamp(36px, 6vw, 64px);
+    line-height: 1.05;
+}
+
+h2 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.subtitle {
+    max-width: 760px;
+    margin: 18px 0 0;
+    color: var(--muted);
+    font-size: 18px;
+    line-height: 1.7;
+}
+
+.panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    padding: 28px;
+    margin-bottom: 24px;
+}
+
+.upload-panel {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    align-items: center;
+}
+
+.upload-panel p {
+    margin: 10px 0 0;
+    color: var(--muted);
+}
+
+.upload-controls {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+input[type="file"] {
+    max-width: 280px;
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: #fff;
+}
+
+button {
+    border: 0;
+    border-radius: 12px;
+    padding: 12px 20px;
+    background: var(--primary);
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+}
+
+button:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.status-message {
+    width: 100%;
+    margin-top: 16px;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.status-message.success {
+    color: var(--success);
+}
+
+.status-message.error {
+    color: var(--danger);
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.metric-grid,
+.segment-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+}
+
+.metric-card,
+.segment-card {
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 18px;
+    background: #fbfcfe;
+}
+
+.metric-label,
+.segment-label {
+    margin: 0 0 10px;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.metric-value,
+.segment-value {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.segment-card.high-value {
+    border-left: 5px solid var(--primary);
+}
+
+.segment-card.active {
+    border-left: 5px solid var(--success);
+}
+
+.segment-card.new {
+    border-left: 5px solid var(--warning);
+}
+
+.segment-card.risk {
+    border-left: 5px solid var(--danger);
+}
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 760px;
+}
+
+th,
+td {
+    padding: 14px 12px;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+}
+
+th {
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+td {
+    font-size: 14px;
+}
+
+.wallet-cell {
+    font-family:
+        "SFMono-Regular",
+        Consolas,
+        monospace;
+}
+
+.badge {
+    display: inline-block;
+    border-radius: 999px;
+    padding: 6px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    background: #f2f4f7;
+}
+
+.hidden {
+    display: none;
+}
+
+@media (max-width: 760px) {
+    .container {
+        width: min(100% - 20px, 1180px);
+        padding-top: 28px;
+    }
+
+    .panel {
+        padding: 20px;
+        border-radius: 16px;
+    }
+
+    .upload-panel {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .upload-controls {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    input[type="file"],
+    button {
+        width: 100%;
+        max-width: none;
+    }
+}
