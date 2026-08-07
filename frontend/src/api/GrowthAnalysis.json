@@ -1,0 +1,15 @@
+[
+ {
+  "inputs":[
+   {
+    "internalType":"string",
+    "name":"fileName",
+    "type":"string"
+   }
+  ],
+  "name":"uploadAnalysis",
+  "outputs":[],
+  "stateMutability":"payable",
+  "type":"function"
+ }
+]
