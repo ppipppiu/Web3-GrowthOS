@@ -1,9 +1,24 @@
 :root {
   color-scheme: dark;
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: radial-gradient(circle at top, rgba(255,255,255,0.08), transparent 32%),
-    radial-gradient(circle at 30% 25%, rgba(94,110,255,0.14), transparent 30%),
-    radial-gradient(circle at 75% 10%, rgba(71,255,178,0.12), transparent 24%),
+  font-family:
+    "Inter",
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  background:
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.08), transparent 32%),
+    radial-gradient(
+      circle at 30% 25%,
+      rgba(94, 110, 255, 0.14),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 75% 10%,
+      rgba(71, 255, 178, 0.12),
+      transparent 24%
+    ),
     #080b12;
   color: #e6edf8;
 }
@@ -15,8 +30,13 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background: radial-gradient(circle at top, rgba(255,255,255,0.08), transparent 30%),
-    radial-gradient(circle at 25% 20%, rgba(255,255,255,0.08), transparent 20%),
+  background:
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.08), transparent 30%),
+    radial-gradient(
+      circle at 25% 20%,
+      rgba(255, 255, 255, 0.08),
+      transparent 20%
+    ),
     linear-gradient(180deg, #0b1220 0%, #070912 100%);
   color: #eef4ff;
 }
@@ -37,39 +57,92 @@ a {
   padding: 1.5rem;
 }
 
+/* =========================
+   Navbar
+========================= */
+
 .navbar {
   position: fixed;
+
   top: 1rem;
+
   left: 50%;
+
   transform: translateX(-50%);
-  width: min(1100px, calc(100% - 3rem));
+
+  width: min(1100px, calc(100% - 12rem));
+
   display: flex;
+
   justify-content: space-between;
+
   align-items: center;
-  padding: 1rem 1.25rem;
+
+  padding: 1rem 1.8rem;
+
   border-radius: 32px;
+
   background: rgba(15, 22, 45, 0.74);
+
   backdrop-filter: blur(24px);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+
   border: 1px solid rgba(255, 255, 255, 0.08);
+
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+
   z-index: 10;
 }
 
-.nav-brand {
+/* 左侧 Logo */
+
+.navbar-logo {
   font-size: 1rem;
+
   font-weight: 700;
-  letter-spacing: 0.08em;
+
+  letter-spacing: 0.05em;
+
+  color: #eef4ff;
+
+  cursor: pointer;
+
+  white-space: nowrap;
 }
 
-.nav-links {
+/* 右侧菜单 */
+
+.navbar-links {
   display: flex;
-  gap: 1rem;
+
+  align-items: center;
+
+  justify-content: flex-end;
+
+  gap: 2rem;
+
+  padding-right: 1rem;
 }
 
-.nav-links a {
+/* 菜单按钮 */
+
+.navbar-item {
   color: rgba(238, 244, 255, 0.8);
-  opacity: 0.92;
-  transition: opacity 0.2s ease;
+
+  cursor: pointer;
+
+  font-size: 1rem;
+
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+
+  white-space: nowrap;
+}
+
+.navbar-item:hover {
+  opacity: 1;
+
+  transform: translateY(-1px);
 }
 
 .nav-links a:hover {
@@ -78,24 +151,46 @@ a {
 
 .back-button {
   position: fixed;
+
   top: 1.25rem;
-  left: 1.5rem;
-  padding: 0.9rem 1rem;
-  border-radius: 24px;
+
+  left: max(2rem, calc((100vw - 1200px) / 2 - 110px));
+
+  width: 46px;
+
+  height: 46px;
+
+  display: grid;
+
+  place-items: center;
+
+  padding: 0;
+
+  border-radius: 50%;
+
   border: 1px solid rgba(255, 255, 255, 0.08);
+
   background: rgba(14, 21, 42, 0.78);
+
   backdrop-filter: blur(20px);
+
   box-shadow: 0 24px 48px rgba(0, 0, 0, 0.24);
+
   color: #f2f8ff;
+
   z-index: 11;
 }
-
 .wallet-avatar {
   position: fixed;
+
   top: 1.25rem;
-  right: 1.5rem;
+
+  right: max(1.8rem, calc((100vw - 1100px) / 2 - 60px));
+
   z-index: 11;
+
   display: inline-flex;
+
   align-items: center;
 }
 
@@ -110,7 +205,9 @@ a {
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.18);
   color: #eef4ff;
   cursor: pointer;
-  transition: transform 0.18s ease, background 0.18s ease;
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease;
 }
 
 .wallet-avatar:hover .avatar-circle {
@@ -120,41 +217,63 @@ a {
 
 .wallet-menu {
   position: absolute;
-  top: calc(100% + 0.75rem);
+
+  top: calc(100% + 0.2rem);
+
   right: 0;
+
   width: 240px;
+
   padding: 0.85rem;
+
   border-radius: 24px;
+
   border: 1px solid rgba(255, 255, 255, 0.12);
+
   background: rgba(15, 22, 45, 0.92);
+
   backdrop-filter: blur(22px);
+
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
+
   display: grid;
+
   gap: 0.45rem;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-10px);
-  transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s ease;
-  pointer-events: none;
 }
 
-.wallet-avatar:hover .wallet-menu {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-  pointer-events: auto;
+.wallet-menu::before {
+  content: "";
+
+  position: absolute;
+
+  top: -15px;
+
+  right: 0;
+
+  width: 240px;
+
+  height: 20px;
 }
 
 .wallet-menu-item {
   padding: 0.9rem 1rem;
+
   border-radius: 18px;
+
   background: rgba(255, 255, 255, 0.05);
+
   color: rgba(238, 244, 255, 0.9);
-  transition: background 0.22s ease, transform 0.18s ease;
+
+  cursor: pointer;
+
+  transition:
+    background 0.22s ease,
+    transform 0.18s ease;
 }
 
 .wallet-menu-item:hover {
   background: rgba(255, 255, 255, 0.12);
+
   transform: translateX(3px);
 }
 
@@ -188,18 +307,18 @@ a {
 } */
 
 .hero-section {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 40px;
 
-    width: 100%;
+  width: 100%;
 }
 
 .hero-copy {
-  width:100%;
-  display:grid;
-  gap:1.25rem;
+  width: 100%;
+  display: grid;
+  gap: 1.25rem;
 }
 
 .eyebrow {
@@ -225,26 +344,28 @@ a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width:100%;
-  min-width:180px;
+  width: 100%;
+  min-width: 180px;
   padding: 1rem 1.4rem;
   border-radius: 999px;
-  max-width:900px;
-  justify-self:center;
-  background: linear-gradient(135deg, rgba(73, 179, 255, 0.92), rgba(123, 88, 255, 0.92));
+  max-width: 900px;
+  justify-self: center;
+  background: linear-gradient(
+    135deg,
+    rgba(73, 179, 255, 0.92),
+    rgba(123, 88, 255, 0.92)
+  );
   color: #ffffff;
   font-weight: 700;
   box-shadow: 0 20px 40px rgba(81, 126, 255, 0.28);
 }
 
 .hero-preview {
+  width: 100%;
+  padding: 2rem;
 
-  width:100%;
-  padding:2rem;
-
-  display:grid;
-  gap:1.3rem;
-
+  display: grid;
+  gap: 1.3rem;
 }
 
 .preview-header {
@@ -264,18 +385,16 @@ a {
 }
 
 .info-section {
+  display: flex;
 
-  display:flex;
+  flex-direction: column;
 
-  flex-direction:column;
-
-  gap:1.75rem;
-
+  gap: 1.75rem;
 }
 
 .info-card {
   padding: 1.8rem;
-   width:100%;
+  width: 100%;
 }
 
 .info-card h2 {
@@ -311,7 +430,9 @@ a {
 }
 
 .action-card {
-  transition: transform 0.2s ease, background 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
 }
 
 .action-card:hover {
@@ -364,6 +485,17 @@ a {
   background: rgba(255, 255, 255, 0.05);
 }
 
+.report-count {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #eef4ff;
+  cursor: pointer;
+}
+
+.report-count:hover {
+  opacity: 0.7;
+}
+
 .profile-panel {
   padding: 2rem;
 }
@@ -380,6 +512,68 @@ a {
   border-bottom: none;
 }
 
+.profile-avatar-area {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 1rem;
+}
+
+.big-avatar {
+  width: 100px;
+
+  height: 100px;
+
+  border-radius: 50%;
+
+  display: grid;
+
+  place-items: center;
+
+  font-size: 2rem;
+
+  background: rgba(255, 255, 255, 0.12);
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.profile-avatar-area button {
+  padding: 0.7rem 1.5rem;
+
+  border-radius: 20px;
+
+  border: none;
+
+  background: rgba(255, 255, 255, 0.1);
+
+  color: white;
+
+  cursor: pointer;
+}
+
+.profile-row strong {
+  display: flex;
+
+  align-items: center;
+
+  gap: 0.8rem;
+}
+
+.profile-row button {
+  border: none;
+
+  background: rgba(255, 255, 255, 0.08);
+
+  border-radius: 10px;
+
+  padding: 0.4rem;
+
+  cursor: pointer;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -391,31 +585,163 @@ a {
   }
 }
 
-@media (max-width: 980px) {
-  .hero-section,
-  .info-section,
-  .workspace-cards,
-  .dashboard-grid,
-  .dashboard-charts {
-    grid-template-columns: 1fr;
+/* =========================
+   Responsive Navbar
+   小窗口隐藏 Logo
+========================= */
+
+@media (max-width: 1000px) {
+  .navbar-logo {
+    display: none;
   }
 
   .navbar {
-    flex-direction: column;
-    gap: 0.85rem;
+    justify-content: flex-end;
+
+    padding-left: 1rem;
+
+    padding-right: 1rem;
   }
 
-  .back-button,
-  .wallet-avatar {
-    top: auto;
-    bottom: 1.5rem;
+  .navbar-links {
+    gap: 1.2rem;
   }
+}
 
-  .back-button {
-    left: 1.5rem;
-  }
+/* ==========================
+   Upload Page
+========================== */
 
-  .wallet-avatar {
-    right: 1.5rem;
-  }
+.page-upload {
+  gap: 2rem;
+}
+
+.page-upload .upload-actions {
+  margin-top: 2rem;
+
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 1.5rem;
+}
+
+.page-upload .action-card {
+  min-height: 220px;
+
+  padding: 2rem;
+
+  display: grid;
+
+  align-content: center;
+}
+
+.page-upload .action-card h3 {
+  margin-bottom: 1rem;
+
+  font-size: 1.3rem;
+}
+
+.page-upload .action-card p {
+  color: rgba(238, 244, 255, 0.7);
+}
+
+.upload-tip {
+  margin-top: -0.5rem;
+
+  padding-left: 0.5rem;
+
+  color: rgba(238, 244, 255, 0.45);
+
+  font-size: 0.95rem;
+}
+
+/* =====================
+ Upload Interaction
+===================== */
+
+.page-upload .upload-actions {
+  margin-top: 1rem;
+}
+
+.upload-card {
+  cursor: pointer;
+
+  text-align: center;
+
+  justify-items: center;
+
+  align-items: center;
+}
+
+.upload-card h3,
+.upload-card p {
+  text-align: center;
+}
+
+.upload-progress {
+  width: 80%;
+
+  height: 8px;
+
+  border-radius: 20px;
+
+  background: rgba(255, 255, 255, 0.12);
+
+  overflow: hidden;
+}
+
+.upload-progress-bar {
+  height: 100%;
+
+  border-radius: 20px;
+
+  background: linear-gradient(90deg, #49b3ff, #7b58ff);
+}
+
+.success-text {
+  color: #54e38e;
+}
+
+.failed-text {
+  color: #ff6b6b;
+}
+
+.upload-confirm-btn {
+  margin-top: 1rem;
+
+  padding: 0.8rem 1.8rem;
+
+  border-radius: 999px;
+
+  border: none;
+
+  cursor: pointer;
+
+  background: linear-gradient(
+    135deg,
+    rgba(73, 179, 255, 0.92),
+    rgba(123, 88, 255, 0.92)
+  );
+
+  color: white;
+
+  font-weight: 700;
+}
+
+/* ==========================
+   Upload Card Alignment
+========================== */
+
+.page-upload .action-card {
+  text-align: center;
+
+  justify-items: center;
+
+  align-items: center;
+}
+
+.page-upload .action-card h3,
+.page-upload .action-card p {
+  text-align: center;
 }

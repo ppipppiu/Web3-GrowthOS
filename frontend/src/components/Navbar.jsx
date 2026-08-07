@@ -1,14 +1,26 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 function Navbar() {
+  const navigate = useNavigate();
+
   return (
-    <nav className="navbar glass-card">
-      <div className="nav-brand">Monad Growth Intelligence · Monad 增长智能分析平台</div>
-      <div className="nav-links">
-        <Link to="/">首页</Link>
-        <Link to="/upload">上传</Link>
-        <Link to="/workspace">工作区</Link>
-        <Link to="/reports">报告</Link>
+    <nav className="navbar glass-panel">
+      <div className="navbar-logo" onClick={() => navigate("/workspace")}>
+        Monad Growth Intelligence · Monad 增长智能分析平台
+      </div>
+
+      <div className="navbar-links">
+        <div className="navbar-item" onClick={() => navigate("/upload")}>
+          上传
+        </div>
+
+        <div className="navbar-item" onClick={() => navigate("/workspace")}>
+          工作区
+        </div>
+
+        <div className="navbar-item" onClick={() => navigate("/reports")}>
+          报告
+        </div>
       </div>
     </nav>
   );
