@@ -36,7 +36,8 @@ from backend.app.services.segmentation_service import (
     segment_users,
 )
 
-
+import json
+from datetime import datetime
 
 app = FastAPI(
     title="Web3 GrowthOS API",
@@ -73,8 +74,59 @@ def health_check() -> dict[str, str]:
         "version": "0.1.0",
     }
 
+@app.get("/api/reports")
+def get_reports():
+
+    report_path="Data/reports.json"
 
 
+    if not os.path.exists(report_path):
+
+        return []
+
+
+    with open(
+        report_path,
+        "r",
+        encoding="utf-8"
+    ) as f:
+
+        return json.load(f)
+
+
+@app.get("/api/reports/{report_id}")
+def get_report(report_id:int):
+
+    report_path="Data/reports.json"
+
+
+    if not os.path.exists(report_path):
+        raise HTTPException(
+            status_code=404,
+            detail="No reports found"
+        )
+
+
+    with open(
+        report_path,
+        "r",
+        encoding="utf-8"
+    ) as f:
+
+        reports=json.load(f)
+
+
+    for report in reports:
+
+        if report["report_id"] == report_id:
+
+            return report
+
+
+    raise HTTPException(
+        status_code=404,
+        detail="Report not found"
+    )
 
 @app.post("/api/analyze")
 async def analyze_file(
@@ -256,15 +308,10 @@ async def analyze_file(
         .to_dict()
     )
 
-
-
     # =========================
     # 7. Save outputs
     # =========================
-
-
-    output_dir = r"D:\Web3-GrowthOS\Data"
-
+    output_dir = "Data"
 
     os.makedirs(
         output_dir,
@@ -284,7 +331,6 @@ async def analyze_file(
     )
 
 
-
     clean_dataframe.to_csv(
         clean_output_path,
         index=False
@@ -297,6 +343,80 @@ async def analyze_file(
     )
 
 
+    # =========================
+    # 7.5 Save Report
+    # =========================
+    report_dir = "Data"
+
+
+    os.makedirs(
+        report_dir,
+        exist_ok=True
+    )
+
+
+    report_path = os.path.join(
+        report_dir,
+        "reports.json"
+    )
+
+
+    if os.path.exists(report_path):
+
+        with open(
+            report_path,
+            "r",
+            encoding="utf-8"
+        ) as f:
+
+            reports = json.load(f)
+
+    else:
+
+        reports = []
+
+
+    report_id = len(reports) + 1
+
+
+    report = {
+
+        "id": report_id,
+
+        "filename": file.filename,
+
+        "time": datetime.now().strftime(
+            "%Y-%m-%d %H:%M:%S"
+        ),
+
+        "analysis": {
+
+            "metrics": metrics,
+
+            "segmentation": segment_summary
+
+        }
+
+    }
+
+
+    reports.append(report)
+
+
+    with open(
+        report_path,
+        "w",
+        encoding="utf-8"
+    ) as f:
+
+        json.dump(
+            reports,
+            f,
+            ensure_ascii=False,
+            indent=2
+        )
+
+
 
     # =========================
     # 8. Response
@@ -307,7 +427,7 @@ async def analyze_file(
 
 
         "success": True,
-
+        "report_id": report_id,
 
         "file": {
 

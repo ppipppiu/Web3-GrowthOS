@@ -1,34 +1,37 @@
 import { useEffect, useState } from "react";
 
-import { getWallet } from "../blockchain/wallet";
-
-import { userData } from "../data/userData";
+import { useNavigate } from "react-router-dom";
 
 function Reports() {
-  const [wallet, setWallet] = useState("");
+  const navigate = useNavigate();
 
-  // 加载钱包状态
-  function loadWallet() {
-    const address = getWallet();
+  const [reports, setReports] = useState([]);
 
-    setWallet(address || "");
+  const [loading, setLoading] = useState(true);
+
+  // =========================
+  // 获取历史报告
+  // =========================
+
+  async function loadReports() {
+    try {
+      const response = await fetch("http://localhost:8000/api/reports");
+
+      const data = await response.json();
+
+      console.log("reports:", data);
+
+      setReports(data);
+    } catch (error) {
+      console.error("加载报告失败:", error);
+    } finally {
+      setLoading(false);
+    }
   }
 
   useEffect(() => {
-    // 初始化读取
-
-    loadWallet();
-
-    // 监听钱包连接/断开
-
-    window.addEventListener("walletChanged", loadWallet);
-
-    return () => {
-      window.removeEventListener("walletChanged", loadWallet);
-    };
+    loadReports();
   }, []);
-
-  const reports = wallet ? userData.analysisReports : [];
 
   return (
     <div className="page page-reports">
@@ -43,19 +46,35 @@ function Reports() {
       </div>
 
       <div className="report-list">
-        {reports.length === 0 ? (
+        {loading ? (
+          <div className="report-item glass-card">加载报告中...</div>
+        ) : reports.length === 0 ? (
           <div className="report-item glass-card">暂无分析报告</div>
         ) : (
           reports.map((report, index) => (
-            <div className="report-item glass-card" key={index}>
-              <h3>{report.title || `分析报告 ${index + 1}`}</h3>
+            <div
+              className="report-item glass-card"
+              key={report.report_id || index}
+            >
+              <h3>分析报告 {report.report_id}</h3>
+
+              <p>
+                文件：
+                {report.file?.filename}
+              </p>
 
               <p>
                 分析时间：
-                {report.time}
+                {report.created_at || report.time}
               </p>
 
-              <button>查看报告</button>
+              <button
+                onClick={() => {
+                  navigate(`/dashboard?report=${report.report_id}`);
+                }}
+              >
+                查看报告
+              </button>
             </div>
           ))
         )}

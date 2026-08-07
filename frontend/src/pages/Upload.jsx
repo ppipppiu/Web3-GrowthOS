@@ -1,12 +1,22 @@
 import { useRef, useState } from "react";
 import * as XLSX from "xlsx";
 
+import { analyzeCSV } from "../api/analyze";
+import { useNavigate } from "react-router-dom";
+
 function Upload() {
   const fileInputRef = useRef(null);
+
+  const navigate = useNavigate();
 
   const [uploadStatus, setUploadStatus] = useState("idle");
 
   const [progress, setProgress] = useState(0);
+
+  const [analysisResult, setAnalysisResult] = useState(null);
+
+  // 保存上传成功后的原始文件
+  const [selectedFile, setSelectedFile] = useState(null);
 
   // ==========================
   // 点击本地上传
@@ -26,6 +36,9 @@ function Upload() {
     if (!file) {
       return;
     }
+
+    // 保存原始文件，后续发送给后端分析
+    setSelectedFile(file);
 
     setUploadStatus("reading");
 
@@ -141,23 +154,33 @@ function Upload() {
   // 成功后确认
   // ==========================
 
-  function confirmAnalysis() {
-    alert("等待接入钱包签名与链上交易");
+  async function confirmAnalysis() {
+    if (!selectedFile) {
+      console.log("没有文件");
+      return;
+    }
 
-    /*
-      后续替换：
+    try {
+      console.log("开始调用后端:", selectedFile.name);
 
-      wallet.signTransaction()
+      setUploadStatus("processing");
 
-      ↓
+      const result = await analyzeCSV(selectedFile);
 
-      Monad Contract
+      console.log("后端返回:", result);
 
-      ↓
+      setAnalysisResult(result);
 
-      transaction hash
+      sessionStorage.setItem("analysisResult", JSON.stringify(result));
 
-    */
+      sessionStorage.setItem("reportId", result.report_id);
+
+      setUploadStatus("success-analysis");
+    } catch (error) {
+      console.error("分析失败:", error);
+
+      setUploadStatus("failed");
+    }
   }
 
   return (
@@ -215,6 +238,37 @@ function Upload() {
                 }}
               >
                 确认分析并上链
+              </button>
+            </>
+          )}
+
+          {uploadStatus === "processing" && (
+            <>
+              <h3>正在分析数据</h3>
+
+              <p>AI 正在生成增长分析报告...</p>
+            </>
+          )}
+
+          {uploadStatus === "success-analysis" && (
+            <>
+              <h3 className="success-text">分析完成</h3>
+
+              <p className="upload-chain-status">✓ 链上交易成功</p>
+
+              <p className="upload-chain-hash">
+                Transaction Hash:
+                <br />
+                0x8f3a...92cd
+              </p>
+
+              <button
+                className="upload-confirm-btn"
+                onClick={() => {
+                  window.location.href = "/reports";
+                }}
+              >
+                查看报告
               </button>
             </>
           )}

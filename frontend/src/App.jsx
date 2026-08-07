@@ -8,6 +8,14 @@ import Dashboard from "./pages/Dashboard";
 import Reports from "./pages/Reports";
 import Profile from "./pages/Profile";
 
+import Segmentation from "./pages/Segmentation";
+import ValueDefinition from "./pages/ValueDefinition";
+
+import Activation from "./pages/segmentation/Activation";
+import ValueAnalysis from "./pages/segmentation/ValueAnalysis";
+import Retention from "./pages/segmentation/Retention";
+import SybilDetection from "./pages/segmentation/SybilDetection";
+
 import Navbar from "./components/Navbar";
 import BackButton from "./components/BackButton";
 import WalletAvatar from "./components/WalletAvatar";
@@ -86,6 +94,24 @@ function App() {
           <Route path="/reports" element={<Reports />} />
 
           <Route path="/profile" element={<Profile />} />
+
+          <Route path="/segmentation" element={<Segmentation />} />
+
+          <Route path="/value-definition" element={<ValueDefinition />} />
+
+          <Route path="/segmentation/activation" element={<Activation />} />
+
+          <Route
+            path="/segmentation/value-analysis"
+            element={<ValueAnalysis />}
+          />
+
+          <Route path="/segmentation/retention" element={<Retention />} />
+
+          <Route
+            path="/segmentation/sybil-detection"
+            element={<SybilDetection />}
+          />
         </Routes>
       </main>
     </div>

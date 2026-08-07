@@ -1,0 +1,170 @@
+[
+  {
+    "id": 1,
+    "filename": "sample_onchain_transactions.csv",
+    "time": "2026-08-07 13:30:03",
+    "analysis": {
+      "metrics": {
+        "total_users": 100,
+        "total_transactions": 556,
+        "total_volume_usd": 222322.39,
+        "active_users": 64,
+        "repeat_users": 86,
+        "repeat_rate": 0.86
+      },
+      "segmentation": {
+        "Active User": 44,
+        "New User": 28,
+        "High Value User": 20,
+        "At Risk User": 8
+      }
+    }
+  },
+  {
+    "id": 2,
+    "filename": "sample_onchain_transactions.csv",
+    "time": "2026-08-07 13:30:35",
+    "analysis": {
+      "metrics": {
+        "total_users": 100,
+        "total_transactions": 556,
+        "total_volume_usd": 222322.39,
+        "active_users": 64,
+        "repeat_users": 86,
+        "repeat_rate": 0.86
+      },
+      "segmentation": {
+        "Active User": 44,
+        "New User": 28,
+        "High Value User": 20,
+        "At Risk User": 8
+      }
+    }
+  },
+  {
+    "id": 3,
+    "filename": "sample_onchain_transactions.csv",
+    "time": "2026-08-07 13:31:12",
+    "analysis": {
+      "metrics": {
+        "total_users": 100,
+        "total_transactions": 556,
+        "total_volume_usd": 222322.39,
+        "active_users": 64,
+        "repeat_users": 86,
+        "repeat_rate": 0.86
+      },
+      "segmentation": {
+        "Active User": 44,
+        "New User": 28,
+        "High Value User": 20,
+        "At Risk User": 8
+      }
+    }
+  },
+  {
+    "id": 4,
+    "filename": "sample_onchain_transactions.csv",
+    "time": "2026-08-07 13:35:33",
+    "analysis": {
+      "metrics": {
+        "total_users": 100,
+        "total_transactions": 556,
+        "total_volume_usd": 222322.39,
+        "active_users": 64,
+        "repeat_users": 86,
+        "repeat_rate": 0.86
+      },
+      "segmentation": {
+        "Active User": 44,
+        "New User": 28,
+        "High Value User": 20,
+        "At Risk User": 8
+      }
+    }
+  },
+  {
+    "id": 5,
+    "filename": "sample_onchain_transactions.csv",
+    "time": "2026-08-07 13:39:14",
+    "analysis": {
+      "metrics": {
+        "total_users": 100,
+        "total_transactions": 556,
+        "total_volume_usd": 222322.39,
+        "active_users": 64,
+        "repeat_users": 86,
+        "repeat_rate": 0.86
+      },
+      "segmentation": {
+        "Active User": 44,
+        "New User": 28,
+        "High Value User": 20,
+        "At Risk User": 8
+      }
+    }
+  },
+  {
+    "id": 6,
+    "filename": "sample_onchain_transactions.csv",
+    "time": "2026-08-07 13:39:35",
+    "analysis": {
+      "metrics": {
+        "total_users": 100,
+        "total_transactions": 556,
+        "total_volume_usd": 222322.39,
+        "active_users": 64,
+        "repeat_users": 86,
+        "repeat_rate": 0.86
+      },
+      "segmentation": {
+        "Active User": 44,
+        "New User": 28,
+        "High Value User": 20,
+        "At Risk User": 8
+      }
+    }
+  },
+  {
+    "id": 7,
+    "filename": "sample_onchain_transactions.csv",
+    "time": "2026-08-07 17:04:21",
+    "analysis": {
+      "metrics": {
+        "total_users": 100,
+        "total_transactions": 556,
+        "total_volume_usd": 222322.39,
+        "active_users": 64,
+        "repeat_users": 86,
+        "repeat_rate": 0.86
+      },
+      "segmentation": {
+        "Active User": 44,
+        "New User": 28,
+        "High Value User": 20,
+        "At Risk User": 8
+      }
+    }
+  },
+  {
+    "id": 8,
+    "filename": "sample_onchain_transactions.csv",
+    "time": "2026-08-07 17:24:35",
+    "analysis": {
+      "metrics": {
+        "total_users": 100,
+        "total_transactions": 556,
+        "total_volume_usd": 222322.39,
+        "active_users": 64,
+        "repeat_users": 86,
+        "repeat_rate": 0.86
+      },
+      "segmentation": {
+        "Active User": 44,
+        "New User": 28,
+        "High Value User": 20,
+        "At Risk User": 8
+      }
+    }
+  }
+]
