@@ -2,1029 +2,428 @@ import { useRef, useState } from "react";
 import * as XLSX from "xlsx";
 
 import { analyzeData } from "../api/analyze";
-import { saveReport  } from "../utils/reportStorage";
+import { saveReport } from "../utils/reportStorage";
 import { getWallet } from "../blockchain/wallet";
 import { useNavigate } from "react-router-dom";
+
+import { ethers } from "ethers";
+import GrowthReport from "../contracts/GrowthReport.json";
+import { CONTRACT_ADDRESS } from "../contracts/config";
 function Upload() {
-
-
   const fileInputRef = useRef(null);
-
 
   const navigate = useNavigate();
 
+  const [uploadStatus, setUploadStatus] = useState("idle");
 
+  const [progress, setProgress] = useState(0);
 
-  const [uploadStatus, setUploadStatus] =
-    useState("idle");
+  const [analysisResult, setAnalysisResult] = useState(null);
 
-
-
-  const [progress, setProgress] =
-    useState(0);
-
-
-
-  const [analysisResult, setAnalysisResult] =
-    useState(null);
-
-
+  const [txHash, setTxHash] = useState("");
 
   // 保存上传成功后的原始文件
 
-  const [selectedFile, setSelectedFile] =
-    useState(null);
-
-
-
-
+  const [selectedFile, setSelectedFile] = useState(null);
 
   // ==========================
   // 点击本地上传
   // ==========================
 
   function handleUploadClick() {
-
     fileInputRef.current.click();
-
   }
-
-
-
-
 
   // ==========================
   // 文件读取
   // ==========================
 
   function handleFileChange(event) {
-
-
-    const file =
-      event.target.files[0];
-
-
+    const file = event.target.files[0];
 
     if (!file) {
-
       return;
-
     }
-
-
 
     // 保存原始文件
 
     setSelectedFile(file);
 
-
-
     setUploadStatus("reading");
-
 
     setProgress(0);
 
+    const reader = new FileReader();
 
-
-    const reader =
-      new FileReader();
-
-
-
-
-
-    reader.onprogress = (e)=>{
-
-
-      if(e.lengthComputable){
-
-
-        const value =
-          Math.round(
-            (e.loaded / e.total) * 100
-          );
-
+    reader.onprogress = (e) => {
+      if (e.lengthComputable) {
+        const value = Math.round((e.loaded / e.total) * 100);
 
         setProgress(value);
-
-
       }
-
-
     };
 
-
-
-
-
-
-
-    reader.onload = ()=>{
-
-
-      try{
-
-
-        let rows=[];
-
-
+    reader.onload = () => {
+      try {
+        let rows = [];
 
         // ======================
         // CSV
         // ======================
 
+        if (file.name.endsWith(".csv")) {
+          const text = reader.result;
 
-        if(file.name.endsWith(".csv")){
+          const lines = text.split("\n").filter((item) => item.trim() !== "");
 
+          const headers = lines[0].split(",");
 
-          const text =
-            reader.result;
+          rows = lines.slice(1).map((line) => {
+            const values = line.split(",");
 
+            let obj = {};
 
-
-          const lines =
-            text
-            .split("\n")
-            .filter(
-              item =>
-              item.trim() !== ""
-            );
-
-
-
-          const headers =
-            lines[0].split(",");
-
-
-
-
-          rows =
-            lines
-            .slice(1)
-            .map(line=>{
-
-
-              const values =
-                line.split(",");
-
-
-
-              let obj={};
-
-
-
-              headers.forEach(
-                (key,index)=>{
-
-
-                  obj[key.trim()] =
-                    values[index];
-
-
-                }
-              );
-
-
-
-              return obj;
-
-
+            headers.forEach((key, index) => {
+              obj[key.trim()] = values[index];
             });
 
-
-
+            return obj;
+          });
         }
-
-
-
 
         // ======================
         // XLSX
         // ======================
+        else if (file.name.endsWith(".xlsx")) {
+          const workbook = XLSX.read(reader.result, {
+            type: "array",
+          });
 
+          const sheet = workbook.Sheets[workbook.SheetNames[0]];
 
-        else if(file.name.endsWith(".xlsx")){
-
-
-          const workbook =
-            XLSX.read(
-              reader.result,
-              {
-                type:"array"
-              }
-            );
-
-
-
-          const sheet =
-            workbook.Sheets[
-              workbook.SheetNames[0]
-            ];
-
-
-
-          rows =
-            XLSX.utils.sheet_to_json(
-              sheet
-            );
-
-
+          rows = XLSX.utils.sheet_to_json(sheet);
         }
-
-
-
-
-
-
 
         // ======================
         // 数据校验
         // ======================
 
-
-        if(rows.length===0){
-
-          throw new Error(
-            "empty data"
-          );
-
+        if (rows.length === 0) {
+          throw new Error("empty data");
         }
 
+        const columns = Object.keys(rows[0]).map((item) => item.toLowerCase());
 
-
-
-
-        const columns =
-          Object.keys(rows[0])
-          .map(
-            item =>
-            item.toLowerCase()
-          );
-
-
-
-
-
-        const hasWallet =
-          columns.some(
-            item =>
-            item.includes("wallet")
-            ||
-            item.includes("address")
-          );
-
-
-
-        if(!hasWallet){
-
-          throw new Error(
-            "missing wallet field"
-          );
-
-        }
-
-
-
-
-
-
-
-
-        const uploadInfo={
-
-
-          fileName:
-          file.name,
-
-
-          rows:
-          rows.length,
-
-
-          columns:
-          Object.keys(rows[0]),
-
-
-          status:
-          "success",
-
-
-          uploadTime:
-          new Date().toISOString()
-
-
-        };
-
-
-
-
-
-
-        sessionStorage.setItem(
-
-          "uploadData",
-
-          JSON.stringify(uploadInfo)
-
+        const hasWallet = columns.some(
+          (item) => item.includes("wallet") || item.includes("address"),
         );
 
+        if (!hasWallet) {
+          throw new Error("missing wallet field");
+        }
 
+        const uploadInfo = {
+          fileName: file.name,
 
+          rows: rows.length,
 
+          columns: Object.keys(rows[0]),
 
+          status: "success",
+
+          uploadTime: new Date().toISOString(),
+        };
+
+        sessionStorage.setItem(
+          "uploadData",
+
+          JSON.stringify(uploadInfo),
+        );
 
         setProgress(100);
 
-
-
-        setTimeout(()=>{
-
-
-          setUploadStatus(
-            "success"
-          );
-
-
-        },500);
-
-
-
-
-      }
-
-
-      catch(error){
-
-
+        setTimeout(() => {
+          setUploadStatus("success");
+        }, 500);
+      } catch (error) {
         console.log(error);
 
-
-        setUploadStatus(
-          "failed"
-        );
-
-
+        setUploadStatus("failed");
       }
-
-
     };
 
-
-
-
-
-
-
-    reader.onerror=()=>{
-
-
-      setUploadStatus(
-        "failed"
-      );
-
-
+    reader.onerror = () => {
+      setUploadStatus("failed");
     };
-
-
-
-
 
     // 支持csv/xlsx
 
-    if(file.name.endsWith(".xlsx")){
-
-
+    if (file.name.endsWith(".xlsx")) {
       reader.readAsArrayBuffer(file);
-
-
-    }else{
-
-
+    } else {
       reader.readAsText(file);
-
-
     }
-
-
-
   }
-
-
-
-
-
-
-
 
   // ==========================
   // 成功后确认分析
   // ==========================
 
-  async function confirmAnalysis(){
-
-
-
-    if(!selectedFile){
-
-
-      console.log(
-        "没有文件"
-      );
-
+  async function confirmAnalysis() {
+    if (!selectedFile) {
+      console.log("没有文件");
 
       return;
-
-
     }
 
+    try {
+      const wallet = getWallet();
 
-
-
-    try{
-
-
-      const wallet =
-        getWallet();
-
-
-
-
-      if(!wallet){
-
-
-        alert(
-          "请先连接钱包"
-        );
-
-
+      if (!wallet) {
+        alert("请先连接钱包");
 
         navigate("/");
 
-
         return;
-
-
       }
 
+      console.log("开始调用后端:", selectedFile.name);
 
-
-
-
-      console.log(
-        "开始调用后端:",
-        selectedFile.name
-      );
-
-
-
-      setUploadStatus(
-        "processing"
-      );
-
-
-
-
-
+      setUploadStatus("processing");
 
       // ==========================
       // 调用v5后端分析接口
       // ==========================
 
+      const result = await analyzeData(
+        selectedFile,
 
-      const result =
-        await analyzeData(
-
-          selectedFile,
-
-          wallet
-
-        );
-
-
-
-
-
-      console.log(
-        "后端返回:",
-        result
+        wallet,
       );
 
+      console.log("后端返回:", result);
 
+      setAnalysisResult(result);
 
+      // ==========================
+      // 调用 GrowthReport 合约
+      // ==========================
 
+      const provider = new ethers.BrowserProvider(window.ethereum);
 
-      setAnalysisResult(
-        result
+      const signer = await provider.getSigner();
+
+      const contract = new ethers.Contract(
+        CONTRACT_ADDRESS,
+        GrowthReport.abi,
+        signer,
       );
 
-      // 保存本地历史报告
+      // 链上保存报告标识
+      const reportHash = result.report_id || `growth-report-${Date.now()}`;
 
-      saveReport(
+      console.log("发送链上交易");
 
-          wallet,
+      const tx = await contract.createReport(reportHash);
 
-          {
+      console.log("Transaction Hash:", tx.hash);
 
-              type:"dashboard",
+      setTxHash(tx.hash);
 
+      // 等待 Monad 确认
 
-              txHash:
-              result.txHash
-              ||
-              "0x8f3a...92cd",
+      await tx.wait();
 
+      console.log("链上确认完成");
 
-              report:
-              result
+      // // ==========================
+      // // 调用智能合约上链
+      // // ==========================
 
+      // const provider = new ethers.BrowserProvider(window.ethereum);
 
-          }
+      // const signer = await provider.getSigner();
 
-      );
+      // const contract = new ethers.Contract(
+      //   CONTRACT_ADDRESS,
+      //   GrowthReport.abi,
+      //   signer,
+      // );
 
+      // // 这里先使用report_id作为链上记录内容
+      // const reportHash = result.report_id || `report-${Date.now()}`;
 
+      // console.log("提交链上交易...");
 
+      // const tx = await contract.createReport(reportHash);
 
+      // console.log("交易发送:", tx.hash);
+
+      // setTxHash(tx.hash);
+
+      // // 等待链上确认
+
+      // await tx.wait();
+
+      // console.log("交易确认成功");
+
+      // // 保存报告
+
+      // saveReport(
+      //   wallet,
+
+      //   {
+      //     type: "dashboard",
+
+      //     txHash: tx.hash,
+
+      //     report: result,
+      //   },
+      // );
 
       sessionStorage.setItem(
-
         "analysisResult",
 
-        JSON.stringify(result)
-
+        JSON.stringify(result),
       );
 
-
-
-
-
-
-      if(result.report_id){
-
-
+      if (result.report_id) {
         sessionStorage.setItem(
-
           "reportId",
 
-          result.report_id
-
+          result.report_id,
         );
-
-
       }
 
+      setUploadStatus("success-analysis");
+    } catch (error) {
+      console.error("分析失败:", error);
 
-
-
-
-      setUploadStatus(
-
-        "success-analysis"
-
-      );
-
-
-
+      setUploadStatus("failed");
     }
-
-
-    catch(error){
-
-
-      console.error(
-        "分析失败:",
-        error
-      );
-
-
-
-      setUploadStatus(
-        "failed"
-      );
-
-
-    }
-
-
   }
 
-
-
-
-
-
-
   return (
-
-
     <div className="page page-upload">
-
-
-      <div className="page-title">
-
-        上传用户数据
-
-      </div>
-
-
-
-
+      <div className="page-title">上传用户数据</div>
 
       <div className="upload-actions">
-
-
-
         {/* 数据源 */}
 
-
         <div className="action-card glass-card">
+          <h3>连接数据源</h3>
 
-
-          <h3>
-
-            连接数据源
-
-          </h3>
-
-
-
-          <p>
-
-            未来支持 Monad RPC 与 DApp 数据接入。
-
-          </p>
-
-
+          <p>未来支持 Monad RPC 与 DApp 数据接入。</p>
         </div>
-
-
-
-
-
-
 
         {/* 本地上传 */}
 
-
-
         <div
-
-
           className="action-card glass-card upload-card"
-
-
-          onClick={
-            uploadStatus==="idle"
-            ?
-            handleUploadClick
-            :
-            undefined
-          }
-
-
+          onClick={uploadStatus === "idle" ? handleUploadClick : undefined}
         >
-
-
-
-
-          {
-            uploadStatus==="idle" && (
-
-              <>
-
-
-                <h3>
-
-                  本地上传
-
-                </h3>
-
-
-
-                <p>
-
-                  上传包含钱包行为数据的 CSV / XLSX 文件。
-
-                </p>
-
-
-              </>
-
-
-            )
-          }
-
-
-
-
-
-
-
-          {
-            uploadStatus==="reading" && (
-
-              <>
-
-
-                <h3>
-
-                  读取数据中
-
-                </h3>
-
-
-
-
-                <div className="upload-progress">
-
-
-                  <div
-
-                    className="upload-progress-bar"
-
-                    style={{
-
-                      width:
-                      `${progress}%`
-
-                    }}
-
-                  />
-
-                </div>
-
-
-              </>
-
-
-            )
-          }
-
-
-
-
-
-
-
-
-          {
-            uploadStatus==="success" && (
-
-
-              <>
-
-
-                <h3 className="success-text">
-
-                  数据读取成功
-
-                </h3>
-
-
-
-                <button
-
-                  className="upload-confirm-btn"
-
-                  onClick={(e)=>{
-
-
-                    e.stopPropagation();
-
-
-                    confirmAnalysis();
-
-
+          {uploadStatus === "idle" && (
+            <>
+              <h3>本地上传</h3>
+
+              <p>上传包含钱包行为数据的 CSV / XLSX 文件。</p>
+            </>
+          )}
+
+          {uploadStatus === "reading" && (
+            <>
+              <h3>读取数据中</h3>
+
+              <div className="upload-progress">
+                <div
+                  className="upload-progress-bar"
+                  style={{
+                    width: `${progress}%`,
                   }}
+                />
+              </div>
+            </>
+          )}
 
-
-                >
-
-                  确认分析并上链
-
-
-                </button>
-
-
-              </>
-
-
-            )
-          }
-
-
-
-
-
-
-
-
-
-          {
-            uploadStatus==="processing" && (
-
-
-              <>
-
-
-                <h3>
-
-                  正在分析数据
-
-                </h3>
-
-
-
-                <p>
-
-                  AI 正在生成增长分析报告...
-
-                </p>
-
-
-              </>
-
-
-            )
-          }
-
-
-
-
-
-
-
-
-          {
-            uploadStatus==="success-analysis" && (
-
-
-              <>
-
-
-                <h3 className="success-text">
-
-                  分析完成
-
-                </h3>
-
-
-
-                <p className="upload-chain-status">
-
-                  ✓ 链上交易成功
-
-                </p>
-
-
-
-                <p className="upload-chain-hash">
-
-                  Transaction Hash:
-
-                  <br />
-
-                  0x8f3a...92cd
-
-
-                </p>
-
-
-
+          {uploadStatus === "success" && (
+            <>
+              <h3 className="success-text">数据读取成功</h3>
 
               <button
+                className="upload-confirm-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
 
-              className="upload-confirm-btn"
-
-              onClick={()=>{
-
-
-                navigate("/reports");
-
-
-              }}
-
+                  confirmAnalysis();
+                }}
               >
-
-              查看报告
-
+                确认分析并上链
               </button>
+            </>
+          )}
 
+          {uploadStatus === "processing" && (
+            <>
+              <h3>正在分析数据</h3>
 
-              </>
+              <p>AI 正在生成增长分析报告...</p>
 
+              <p>等待链上确认...</p>
+            </>
+          )}
 
-            )
-          }
+          {uploadStatus === "success-analysis" && (
+            <>
+              <h3 className="success-text">分析完成</h3>
 
+              <p className="upload-chain-status">✓ 链上交易成功</p>
 
+              {/* <p className="upload-chain-hash">
+                Transaction Hash:
+                <br />
+                {txHash}
+              </p> */}
+              <p className="upload-chain-desc">报告已永久记录至 Monad</p>
 
+              <button
+                className="upload-confirm-btn"
+                onClick={() => {
+                  navigate("/reports");
+                }}
+              >
+                查看报告
+              </button>
+            </>
+          )}
 
+          {uploadStatus === "failed" && (
+            <>
+              <h3 className="failed-text">数据读取失败</h3>
 
-
-
-
-
-          {
-            uploadStatus==="failed" && (
-
-
-              <>
-
-
-                <h3 className="failed-text">
-
-                  数据读取失败
-
-                </h3>
-
-
-
-                <button
-
-                  className="upload-confirm-btn"
-
-                  onClick={()=>{
-
-
-                    setUploadStatus(
-                      "idle"
-                    );
-
-
-                  }}
-
-
-                >
-
-                  重新上传
-
-
-                </button>
-
-
-              </>
-
-
-            )
-          }
-
-
-
-
-
-
+              <button
+                className="upload-confirm-btn"
+                onClick={() => {
+                  setUploadStatus("idle");
+                }}
+              >
+                重新上传
+              </button>
+            </>
+          )}
         </div>
-
-
-
-
       </div>
 
-
-
-
-
-
-
-      <p className="upload-tip">
-
-        通过连接数据源或上传 CSV，开始增长分析流程。
-
-      </p>
-
-
-
-
-
+      <p className="upload-tip">通过连接数据源或上传 CSV，开始增长分析流程。</p>
 
       <input
-
         ref={fileInputRef}
-
         type="file"
-
         accept=".csv,.xlsx"
-
         hidden
-
-        onChange={
-          handleFileChange
-        }
-
-
+        onChange={handleFileChange}
       />
-
-
-
-
-
     </div>
-
-
   );
-
 }
-
 
 export default Upload;
