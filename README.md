@@ -1,54 +1,65 @@
-# Web3-GrowthOS
+# Web3-GrowthOS  
+# 面向 Monad 生态 DApp 的链上增长智能分析平台
+
 
 ## 项目概述
 
-Web3-GrowthOS 是一个面向 Web3 项目的链上用户增长智能分析平台。
+Web3-GrowthOS 是一个面向 Monad 生态 DApp 的链上增长智能分析平台。
 
-在 Web3 生态中，项目方通常拥有大量链上交易数据，但缺少有效的方法对用户行为、用户价值以及增长机会进行分析。本项目通过连接或上传链上交易数据，对用户进行行为分析、价值分层，并结合 AI Agent 自动生成增长策略建议，帮助 Web3 项目实现数据驱动的用户增长运营。
+在 Web3 生态中，DApp 项目通常拥有大量链上交易数据，但缺少有效的方法理解用户行为、识别高价值用户，并进一步制定用户增长策略。
 
-项目核心流程：
+本项目通过分析链上交易数据，对用户行为、用户价值以及增长机会进行智能分析，并结合 AI Agent 自动生成增长策略建议，帮助 Monad 生态项目实现数据驱动的用户增长运营。
 
-```
-Blockchain Transaction Data
 
-        ↓
+项目核心目标：
 
-Data Validation & Cleaning
+- 通过链上数据理解用户行为
+- 识别高价值用户和潜力用户
+- 发现用户增长问题
+- 使用 AI 自动生成增长策略
 
-        ↓
-
-On-chain User Behavior Analysis
-
-        ↓
-
-User Value Segmentation
-
-        ↓
-
-Growth Dashboard Visualization
-
-        ↓
-
-AI Growth Strategy Generation
-```
 
 ---
 
-# 项目功能
+# 项目整体流程
 
-## 1. Web3 Wallet Connection
 
-平台支持 Web3 Wallet 连接。
+```
+链上交易数据
 
-钱包地址作为用户身份标识，用于：
+        ↓
 
-- 用户身份识别
-- 链上行为关联
-- 分析报告绑定
+数据校验与清洗
+
+        ↓
+
+用户链上行为分析
+
+        ↓
+
+用户价值分层
+
+        ↓
+
+增长分析 Dashboard
+
+        ↓
+
+AI 增长策略生成
+
+        ↓
+
+用户增长优化
+```
+
 
 ---
 
-# 2. 链上数据上传与分析
+# 核心功能
+
+
+## 1. 链上数据上传与分析
+
 
 用户可以上传链上交易数据：
 
@@ -64,155 +75,172 @@ AI Growth Strategy Generation
 - 异常数据检测
 - 数据清洗
 - 用户行为聚合
+- 增长指标计算
 
 
 数据处理流程：
 
 ```
-Raw Transaction Data
+原始链上交易数据
 
         ↓
 
-Validation
+数据校验
 
         ↓
 
-Cleaning
+数据清洗
 
         ↓
 
-Aggregation
+用户行为聚合
 
         ↓
 
-Growth Metrics
+增长指标计算
 ```
+
 
 ---
 
-# 3. Web3 User Growth Analytics
-
-平台提供多维度用户增长分析。
-
-## User Activity Analysis
-
-分析：
-
-- 用户交易次数
-- 用户活跃周期
-- 用户参与程度
+# 2. 链上用户行为分析
 
 
-帮助项目方了解：
+平台针对 Web3 用户链上行为进行多维度分析。
 
-- 用户规模变化
-- 用户活跃趋势
+
+主要分析指标：
+
+- 钱包活跃情况
+- 交易次数
+- 交易金额
+- 用户参与周期
+- 用户交互频率
+
+
+帮助项目方理解：
+
+- 用户增长趋势
+- 用户活跃变化
 - 用户参与质量
 
 
 ---
 
-## User Value Analysis
-
-基于链上行为计算用户价值。
-
-分析指标：
-
-- Transaction Frequency
-- Transaction Volume
-- User Contribution
+# 3. 用户价值分层
 
 
-用于识别：
-
-- 核心用户
-- 潜力用户
-- 普通用户
+平台根据用户链上行为，对用户进行价值划分。
 
 
----
+用户主要分为：
 
-## User Segmentation
-
-平台根据用户链上行为进行用户分层。
-
-主要用户类型：
 
 | 用户类型 | 描述 |
 | --- | --- |
-| High Value User | 高活跃、高贡献用户 |
-| Potential User | 具有增长潜力用户 |
-| Normal User | 普通参与用户 |
-| Risk User | 低活跃或异常行为用户 |
+| 高价值用户 | 高活跃、高贡献用户 |
+| 潜力用户 | 具有进一步增长潜力用户 |
+| 普通用户 | 基础参与用户 |
+| 风险用户 | 低活跃或异常行为用户 |
 
 
-用户分层帮助项目方：
+用户价值分层帮助项目方：
 
-- 优先运营高价值用户
-- 发现增长机会
-- 优化用户激励策略
+- 识别核心用户
+- 优化运营资源分配
+- 制定精准用户激励策略
 
 
 ---
 
-# 4. Growth Dashboard
+# 4. 增长分析 Dashboard
 
-平台提供可视化增长分析 Dashboard。
 
-主要模块：
+平台提供可视化增长分析能力。
 
-## User Growth Trend
+
+## 用户增长趋势分析
 
 展示：
 
-- 用户增长趋势
+- 用户增长变化
 - 交易趋势
-- 用户活跃变化
+- 用户活跃趋势
 
 
-## User Growth Funnel
+---
+
+## 用户增长漏斗分析
+
 
 分析用户转化路径：
 
 ```
-Wallet User
+钱包用户
 
       ↓
 
-First Transaction
+首次链上交易用户
 
       ↓
 
-Repeated Transaction
+重复交易用户
 
       ↓
 
-High Value User
+高价值用户
 ```
 
 
-## User Value Distribution
+帮助项目方发现：
+
+- 用户流失节点
+- 转化瓶颈
+- 增长机会
+
+
+---
+
+## 用户价值分布分析
+
 
 展示：
 
-- 不同价值用户比例
+- 不同价值用户占比
 - 用户贡献结构
 
 
-## Sybil Risk Detection
+帮助项目方判断：
+
+- 当前用户质量
+- 核心用户规模
+
+
+---
+
+## Sybil 风险检测
+
 
 分析异常钱包行为：
 
-- 异常交易模式
-- 疑似机器人行为
-- 风险用户识别
+- 高频异常交易
+- 相似交互模式
+- 潜在机器人用户
+
+
+帮助项目识别：
+
+- 空投攻击风险
+- 虚假用户增长
 
 
 ---
 
 # 5. AI Growth Strategy Agent
 
-平台集成 AI Agent，为用户提供智能增长分析。
+
+平台集成 AI Agent，实现自动化增长分析。
+
 
 AI Agent 基于：
 
@@ -229,7 +257,26 @@ AI Agent 基于：
 - 增长优化方向
 
 
-当前 AI 模型：
+AI 工作流程：
+
+```
+用户分析结果
+
+        ↓
+
+AI Agent 智能理解
+
+        ↓
+
+增长问题分析
+
+        ↓
+
+生成增长策略
+```
+
+
+当前使用模型：
 
 ```
 Ollama
@@ -240,53 +287,39 @@ Qwen2.5-7B
 ```
 
 
-AI 调用流程：
-
-```
-Growth Analysis Result
-
-        ↓
-
-AI Agent
-
-        ↓
-
-Growth Strategy
-```
-
 ---
 
 # 技术架构
 
 
 ```
-                Frontend
-
-            React + Vite
+                 用户
 
                   |
 
                   |
 
-              FastAPI API
+            React 前端
 
                   |
 
                   |
 
-          Python Data Pipeline
+             FastAPI 后端
 
                   |
 
-        --------------------
+        ---------------------
 
-        |                  |
+        |                   |
 
- Blockchain Data      AI Agent
+  链上数据分析        AI Agent
 
- Wallet Data          Ollama
+        |                   |
 
-                      Qwen2.5-7B
+ 用户行为建模        Ollama
+
+ 用户价值分层        Qwen2.5-7B
 
 ```
 
@@ -296,16 +329,16 @@ Growth Strategy
 # 技术栈
 
 
-## Frontend
+## 前端
 
 - React
 - Vite
 - JavaScript
 - CSS
-- Chart Visualization
+- 数据可视化组件
 
 
-## Backend
+## 后端
 
 - Python
 - FastAPI
@@ -316,8 +349,9 @@ Growth Strategy
 ## Web3
 
 - Wallet Connection
-- Blockchain Transaction Data Analysis
-- Smart Contract Integration
+- Monad Testnet
+- 链上交易数据分析
+- Solidity Smart Contract
 
 
 ## AI
@@ -341,7 +375,7 @@ Web3-GrowthOS
 
 │   ├── src
 
-│   └── React Frontend Application
+│   └── React 前端应用
 
 
 ├── backend
@@ -350,41 +384,35 @@ Web3-GrowthOS
 
 │   ├── services
 
-│   └── FastAPI Backend
+│   └── FastAPI 后端服务
 
 
 ├── contracts
 
-│   └── Solidity Smart Contracts
+│   └── Solidity 智能合约
 
 
 ├── Data
 
-│   └── Sample Blockchain Dataset
+│   └── 示例链上交易数据
 
 
 └── README.md
 ```
+
 
 ---
 
 # 本地运行方式
 
 
-## 1. Backend
+## 1. 启动后端
 
 
-进入项目目录：
+进入项目：
 
 ```bash
 cd Web3-GrowthOS
-```
-
-
-创建环境：
-
-```bash
-python -m venv .venv
 ```
 
 
@@ -402,7 +430,7 @@ uvicorn backend.app.main:app --reload
 ```
 
 
-默认：
+默认地址：
 
 ```
 http://localhost:8000
@@ -418,10 +446,10 @@ http://localhost:8000/docs
 
 ---
 
-## 2. Frontend
+## 2. 启动前端
 
 
-进入 frontend：
+进入：
 
 ```bash
 cd frontend
@@ -451,7 +479,7 @@ http://localhost:5173
 
 ---
 
-## 3. AI Agent
+## 3. 启动 AI Agent
 
 
 安装 Ollama：
@@ -482,15 +510,16 @@ ollama run qwen2.5:7b
 
 ---
 
-# 公网 Demo 部署
+# 公网 Demo 部署方式
 
 
-当前 Demo 使用：
+当前 Demo 采用前后端分离部署。
+
+
+架构：
 
 ```
-Frontend
-
-Vercel
+Vercel 前端
 
         ↓ HTTPS
 
@@ -498,7 +527,7 @@ Cloudflare Tunnel
 
         ↓
 
-Local FastAPI Backend
+本地 FastAPI 后端
 
         ↓
 
@@ -506,7 +535,7 @@ Ollama Qwen2.5-7B
 ```
 
 
-## Frontend Deployment
+## 前端部署
 
 部署平台：
 
@@ -520,22 +549,17 @@ https://web3-growth-os-hatb.vercel.app
 ```
 
 
-## Backend Deployment
-
-当前采用：
-
-- FastAPI 本地运行
-- Cloudflare Tunnel 暴露公网 API
+## 后端公网访问
 
 
-启动：
+启动 FastAPI：
 
 ```bash
 uvicorn backend.app.main:app --host 0.0.0.0 --port 8000
 ```
 
 
-启动 Tunnel：
+启动 Cloudflare Tunnel：
 
 ```bash
 cloudflared tunnel --url http://localhost:8000
@@ -547,43 +571,41 @@ cloudflared tunnel --url http://localhost:8000
 # Demo 使用流程
 
 
-完整流程：
-
 ```
-1. Connect Wallet
+1. 连接 Web3 钱包
 
         ↓
 
-2. Upload Blockchain Transaction Data
+2. 上传链上交易数据
 
         ↓
 
-3. Data Cleaning & Analysis
+3. 数据清洗与分析
 
         ↓
 
-4. Growth Dashboard
+4. 查看增长分析 Dashboard
 
         ↓
 
-5. User Segmentation
+5. 用户价值分层
 
         ↓
 
-6. AI Agent Strategy Generation
+6. AI Agent 生成增长策略
 
         ↓
 
-7. View Analysis Report
+7. 查看分析报告
 ```
 
 
 ---
 
-# Demo Requirements
+# Demo 运行环境
 
 
-运行 Demo 需要：
+需要：
 
 - Node.js >= 18
 - Python >= 3.10
@@ -596,26 +618,31 @@ cloudflared tunnel --url http://localhost:8000
 # 项目亮点
 
 
-## Web3 + Growth Analytics
+## 链上数据驱动增长分析
 
 结合：
 
-- 链上用户行为
-- 用户价值分析
-- 增长运营方法
+- Blockchain Data
+- User Behavior Analytics
+- Growth Operation Methodology
 
-建立 Web3 项目的数据驱动增长体系。
+
+建立 Web3 项目的用户增长分析体系。
 
 
 ---
 
-## AI Agent Growth Assistant
+## AI 驱动增长策略生成
+
 
 通过大语言模型：
 
-- 理解用户分析结果
-- 自动生成增长策略
-- 降低 Web3 增长分析门槛
+- 理解用户行为
+- 分析增长问题
+- 自动生成运营策略
+
+
+降低 Web3 项目增长分析门槛。
 
 
 ---
@@ -624,23 +651,23 @@ cloudflared tunnel --url http://localhost:8000
 
 
 ```
-On-chain Data
+链上数据
 
       ↓
 
-Analytics
+用户分析
 
       ↓
 
-Segmentation
+用户分层
 
       ↓
 
-AI Strategy
+AI 策略生成
 
       ↓
 
-Growth Optimization
+增长优化
 ```
 
 
@@ -652,9 +679,9 @@ Growth Optimization
 未来计划：
 
 - 支持更多区块链数据源
-- 增加实时链上数据监听
+- 接入实时链上数据
 - 优化用户价值模型
-- 提升 AI Agent 多轮分析能力
+- 增强 AI Agent 多轮分析能力
 - 支持自动化增长运营
 
 
