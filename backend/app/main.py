@@ -5,6 +5,7 @@ from io import BytesIO
 
 from fastapi.middleware.cors import CORSMiddleware
 
+from pydantic import BaseModel
 
 from backend.app.services.validation_service import (
     validate_required_columns,
@@ -36,7 +37,9 @@ from backend.app.services.segmentation_service import (
     segment_users,
 )
 
-
+from backend.app.services.agent_service import (
+    generate_agent_answer,
+)
 
 app = FastAPI(
     title="Web3 GrowthOS API",
@@ -73,7 +76,30 @@ def health_check() -> dict[str, str]:
         "version": "0.1.0",
     }
 
+# =========================
+# AI Agent Chat API
+# =========================
 
+
+class AgentRequest(BaseModel):
+
+    question: str
+
+    report: dict | None = None
+
+
+
+@app.post("/api/agent/chat")
+def agent_chat(
+    request: AgentRequest
+):
+    answer = generate_agent_answer(
+        request.question,
+        request.report
+    )
+    return {
+        "answer": answer
+    }
 
 
 @app.post("/api/analyze")

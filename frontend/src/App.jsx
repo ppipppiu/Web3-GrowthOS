@@ -26,6 +26,7 @@ import { Navigate } from "react-router-dom";
 
 import { getWallet } from "./blockchain/wallet";
 
+import Agent from "./pages/Agent";
 
 // =============================
 // 页面路径记录
@@ -33,359 +34,122 @@ import { getWallet } from "./blockchain/wallet";
 // =============================
 
 function RouteTracker() {
+  const location = useLocation();
 
-    const location = useLocation();
+  useEffect(() => {
+    const current = sessionStorage.getItem("currentPath");
 
-
-    useEffect(() => {
-
-        const current =
-            sessionStorage.getItem(
-                "currentPath"
-            );
-
-
-        if (current) {
-
-            sessionStorage.setItem(
-                "previousPath",
-                current
-            );
-
-        }
-
-
-        sessionStorage.setItem(
-            "currentPath",
-            location.pathname
-        );
-
-
-    }, [location]);
-
-
-    return null;
-
-}
-
-
-
-
-
-function App() {
-
-
-    const [
-        walletConnected,
-        setWalletConnected
-    ] = useState(false);
-
-
-
-    // =============================
-    // 检查钱包状态
-    // =============================
-
-    function loadWalletStatus() {
-
-
-        const wallet = getWallet();
-
-
-        setWalletConnected(
-            Boolean(wallet)
-        );
-
-
+    if (current) {
+      sessionStorage.setItem("previousPath", current);
     }
 
+    sessionStorage.setItem("currentPath", location.pathname);
+  }, [location]);
 
+  return null;
+}
 
+function App() {
+  const [walletConnected, setWalletConnected] = useState(false);
 
+  // =============================
+  // 检查钱包状态
+  // =============================
 
-    // =============================
-    // 初始化钱包监听
-    // =============================
+  function loadWalletStatus() {
+    const wallet = getWallet();
 
-    useEffect(() => {
+    setWalletConnected(Boolean(wallet));
+  }
 
+  // =============================
+  // 初始化钱包监听
+  // =============================
 
-        loadWalletStatus();
+  useEffect(() => {
+    loadWalletStatus();
 
+    const handleWalletChanged = () => {
+      loadWalletStatus();
+    };
 
+    window.addEventListener("walletChanged", handleWalletChanged);
 
-        const handleWalletChanged = () => {
+    return () => {
+      window.removeEventListener("walletChanged", handleWalletChanged);
+    };
+  }, []);
 
-            loadWalletStatus();
+  return (
+    <div className="app-shell">
+      {walletConnected && (
+        <>
+          <Navbar />
 
-        };
+          <BackButton />
 
+          <WalletAvatar />
+        </>
+      )}
 
+      <main className="page-frame">
+        <RouteTracker />
 
-        window.addEventListener(
-            "walletChanged",
-            handleWalletChanged
-        );
+        <Routes>
+          {/* 登录入口 */}
 
+          <Route path="/" element={<Landing />} />
 
+          {/* 上传 */}
 
-        return () => {
+          <Route path="/upload" element={<Upload />} />
 
+          {/* Agent Chat */}
 
-            window.removeEventListener(
-                "walletChanged",
-                handleWalletChanged
-            );
+          <Route path="/agent" element={<Agent />} />
 
+          {/* Dashboard 使用v5 */}
 
-        };
-
-
-    }, []);
-
-
-
-
-
-
-    return (
-
-        <div className="app-shell">
-
-
-            {
-                walletConnected && (
-
-                    <>
-
-
-                        <Navbar />
-
-
-                        <BackButton />
-
-
-                        <WalletAvatar />
-
-
-                    </>
-
-                )
+          <Route
+            path="/dashboard"
+            element={
+              walletConnected ? <Dashboard /> : <Navigate to="/" replace />
             }
+          />
 
+          {/* 报告 */}
 
+          <Route path="/reports" element={<Reports />} />
 
+          <Route path="/report/:id" element={<ReportDetail />} />
 
+          {/* 用户主页 */}
 
-            <main className="page-frame">
+          <Route path="/profile" element={<Profile />} />
 
+          {/* 用户价值定义 */}
 
-                <RouteTracker />
+          <Route path="/value-definition" element={<ValueDefinition />} />
 
+          {/* 用户分层 */}
 
+          <Route path="/segmentation" element={<Segmentation />} />
 
-                <Routes>
+          <Route path="/segmentation/activation" element={<Activation />} />
 
+          <Route
+            path="/segmentation/value-analysis"
+            element={<ValueAnalysis />}
+          />
 
-                    {/* 登录入口 */}
+          <Route path="/segmentation/retention" element={<Retention />} />
 
-                    <Route
+          <Route
+            path="/segmentation/sybil-detection"
+            element={<SybilDetection />}
+          />
 
-                        path="/"
-
-                        element={
-                            <Landing />
-                        }
-
-                    />
-
-
-
-
-                    {/* 上传 */}
-
-                    <Route
-
-                        path="/upload"
-
-                        element={
-                            <Upload />
-                        }
-
-                    />
-
-
-
-
-                    {/* 工作区 */}
-
-                    <Route
-
-                        path="/workspace"
-
-                        element={
-                            <Workspace />
-                        }
-
-                    />
-
-
-
-
-
-                    {/* Dashboard 使用v5 */}
-
-                    <Route
-
-                    path="/dashboard"
-
-                    element={
-                    walletConnected
-
-                    ?
-
-                    <Dashboard/>
-
-                    :
-
-                    <Navigate to="/" replace/>
-
-                    }
-
-                    />
-
-
-
-
-                    {/* 报告 */}
-
-                    <Route
-
-                        path="/reports"
-
-                        element={
-                            <Reports />
-                        }
-
-                    />
-
-                    <Route
-
-                    path="/report/:id"
-
-                    element={<ReportDetail/>}
-
-                    />
-
-
-
-                    {/* 用户主页 */}
-
-                    <Route
-
-                        path="/profile"
-
-                        element={
-                            <Profile />
-                        }
-
-                    />
-
-
-
-
-                    {/* 用户价值定义 */}
-
-                    <Route
-
-                        path="/value-definition"
-
-                        element={
-                            <ValueDefinition />
-                        }
-
-                    />
-
-
-
-
-
-
-                    {/* 用户分层 */}
-
-                    <Route
-
-                        path="/segmentation"
-
-                        element={
-                            <Segmentation />
-                        }
-
-                    />
-
-
-
-
-
-                    <Route
-
-                        path="/segmentation/activation"
-
-                        element={
-                            <Activation />
-                        }
-
-                    />
-
-
-
-
-
-                    <Route
-
-                        path="/segmentation/value-analysis"
-
-                        element={
-                            <ValueAnalysis />
-                        }
-
-                    />
-
-
-
-
-
-                    <Route
-
-                        path="/segmentation/retention"
-
-                        element={
-                            <Retention />
-                        }
-
-                    />
-
-
-
-
-
-                    <Route
-
-                        path="/segmentation/sybil-detection"
-
-                        element={
-                            <SybilDetection />
-                        }
-
-                    />
-
-
-
-
-
-
-
-                    {/*
+          {/*
 
                         v5新增
 
@@ -395,32 +159,11 @@ function App() {
 
                     */}
 
-                    <Route
-
-                        path="/growth/:type"
-
-                        element={
-                            <GrowthCenter />
-                        }
-
-                    />
-
-
-
-                </Routes>
-
-
-
-            </main>
-
-
-        </div>
-
-
-    );
-
-
+          <Route path="/growth/:type" element={<GrowthCenter />} />
+        </Routes>
+      </main>
+    </div>
+  );
 }
-
 
 export default App;
