@@ -2,7 +2,7 @@
 # 面向 Monad 生态 DApp 的链上增长智能分析平台
 
 ## 项目演示
-[点击观看 Demo Video](https://github.com/ppipppiu/Web3-GrowthOS/releases/download/v11/Demo.MOV)
+[点击观看 Demo Video](https://github.com/ppipppiu/Web3-GrowthOS/releases/download/demo/Demo.MOV)
 
 ## 项目介绍
 
